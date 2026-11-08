@@ -1,0 +1,19 @@
+{
+  "name": "horizon-app-api",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Backend-for-frontend for the Horizon Community Church iOS app: Planning Center + website content.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types test/*.test.ts"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250101.0",
+    "@types/node": "^26.6.6",
+    "typescript": "^5.6.0",
+    "wrangler": "^3.90.0"
+  }
+}
