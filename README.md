@@ -28,8 +28,10 @@ Read next:
 ## Repository layout
 
 ```
-ios/                 SwiftUI app (iOS 17+), generated with XcodeGen
-  project.yml
+ios/                 SwiftUI app (iOS 17+)
+  Horizon.xcodeproj  Open this in Xcode
+  Horizon/Config     Horizon.xcconfig: backend URL, PCO client ID, team ID
+  tools/             generate_xcodeproj.py (regenerates the project from files on disk)
   Horizon/App        Entry point, tabs, router, build config
   Horizon/Core       OAuth + PKCE, Keychain, API client, models, geofencing, audio
   Horizon/Features   Home, Groups, Events, Giving, NextSteps, Serving, Profile, CheckIn
@@ -68,18 +70,35 @@ npm run deploy                                # note the *.workers.dev URL
 For local development, put `PCO_APP_ID` and `PCO_SECRET` in `backend/.dev.vars` and run
 `npm run dev`.
 
-### 3. iOS app
+### 3. iOS app (Xcode 16 or later, macOS)
+
+1. Open `ios/Horizon.xcodeproj` in Xcode.
+2. Edit `ios/Horizon/Config/Horizon.xcconfig`: set `HORIZON_API_BASE_URL` (the backend URL),
+   `PCO_CLIENT_ID`, and `DEVELOPMENT_TEAM` (needed only to run on a real iPhone).
+3. Choose the **Horizon** scheme and an iPhone simulator, then press ⌘R to run or ⌘U to test.
+
+From the command line:
 
 ```bash
-brew install xcodegen
 cd ios
-# Edit project.yml: HORIZON_API_BASE_URL (backend URL), PCO_CLIENT_ID, DEVELOPMENT_TEAM
-xcodegen
-open Horizon.xcodeproj
+xcodebuild test -project Horizon.xcodeproj -scheme Horizon \
+  -destination 'platform=iOS Simulator,name=iPhone 16' CODE_SIGNING_ALLOWED=NO
 ```
+
+Every push that touches `ios/` is also built and tested with Xcode on GitHub Actions
+(`.github/workflows/ios.yml`).
 
 Add a 1024×1024 app icon to `Horizon/Resources/Assets.xcassets/AppIcon.appiconset`, and set
 `AccentColor` and `BrandNavy` to Horizon's brand colors.
+
+### Logging in
+
+Members tap **Log in with Planning Center** and enter their Planning Center username
+(email) and password on Planning Center's own login page, which opens in a secure system
+sheet. The app receives a token, never the password. This is the only sign-in method
+Planning Center allows for third-party apps: there's no API that accepts a username and
+password directly. Two-step verification, "Forgot password" and iCloud Keychain autofill all
+keep working. Members can also browse as a guest.
 
 ## Before launch
 
