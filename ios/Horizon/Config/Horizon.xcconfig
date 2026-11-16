@@ -1,0 +1,11 @@
+// Horizon app configuration. Edit these two values before building.
+// (In .xcconfig files "//" starts a comment, so URLs are written as https:/$()/host.)
+
+// Horizon backend (backend/ folder, deployed to Cloudflare Workers).
+HORIZON_API_BASE_URL = https:/$()/horizon-app-api.example.workers.dev
+
+// Client ID of the Planning Center OAuth app (api.planningcenteronline.com/oauth/applications).
+PCO_CLIENT_ID = REPLACE_WITH_PCO_OAUTH_CLIENT_ID
+
+// Your Apple Developer Team ID (Xcode › Settings › Accounts), for signing on a device.
+DEVELOPMENT_TEAM =

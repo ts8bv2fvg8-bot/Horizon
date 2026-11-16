@@ -56,7 +56,7 @@ struct SignInPrompt: View {
                     catch { self.error = error.localizedDescription }
                 }
             } label: {
-                Label("Sign in with Planning Center", systemImage: "arrow.right.circle.fill")
+                Label("Log in with Planning Center", systemImage: "arrow.right.circle.fill")
             }
             .buttonStyle(.borderedProminent)
         }

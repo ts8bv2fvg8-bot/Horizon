@@ -3,6 +3,8 @@ import SwiftUI
 struct RootTabView: View {
     @Environment(AppRouter.self) private var router
     @Environment(AuthManager.self) private var auth
+    @AppStorage("hasSeenSignIn") private var hasSeenSignIn = false
+    @State private var showSignIn = false
 
     var body: some View {
         @Bindable var router = router
@@ -29,6 +31,8 @@ struct RootTabView: View {
         .sheet(isPresented: $router.showProfile) { ProfileView() }
         .sheet(isPresented: $router.showServing) { NavigationStack { ServingView() } }
         .sheet(isPresented: $router.showCheckIn) { NavigationStack { CheckInView() } }
+        .fullScreenCover(isPresented: $showSignIn, onDismiss: { hasSeenSignIn = true }) { SignInView() }
+        .onAppear { if !auth.isSignedIn && !hasSeenSignIn { showSignIn = true } }
     }
 }
 
